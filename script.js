@@ -1,14 +1,18 @@
 var arr = [];
 
 function generate() {
+    // * Clearing window for next generation
     for (let i=1; i<1000; i++) {
         window.clearInterval(i);
     }
+    // * Getting amount of bars to create and where to create bars 
     var size = document.getElementById('size').value;
     var table = document.getElementById('table');
 
+    // * Clearing the array to make this function usable more than once 
     arr = [];
 
+    // * If there is already bars on screen making them dissapear
     [].slice.call(table.children).forEach(bar => {
         bar.style.maxHeight = '0';
     });
@@ -19,14 +23,14 @@ function generate() {
 
     setTimeout(()  => {
         table.innerHTML = ''
-
+        // * Creating bars
         for (var i = 0; i < size; i++) {
             var bar = document.createElement('div');
             bar.classList.add('bar');
             bar.id = i
             table.appendChild(bar);
         }
-
+        // * Adding them to our array to sort and making them appear on the screen
         setTimeout(() => {
             [].slice.call(table.children).forEach(bar => {
                 bar_height = `${(Math.floor(Math.random() * 90)+5).toString()}%`;
@@ -46,11 +50,12 @@ function timer(array) {
     }
 }
 
+// * Calculating which algorithm to use 
 function sort() {
     var heights = []
 
     const dropdown = document.getElementById('dropdown').value;
-
+    // * Creating array to sort with name heights
     arr.forEach(subarr => {
         heights.push(parseInt(subarr[1]))
     });
@@ -58,21 +63,94 @@ function sort() {
     //heights.sort(function(a, b){return a - b});
 
     const speed = document.getElementById('speed').value
+    switch (dropdown) {
+        case 'marge':
+            mergeSort(heights, 0,heights.length-1);
+            timer(heights);
+            break;
+        case 'bubble':
+            bubbleSort(heights, speed);
+            break;
+        case 'insertion':
+            insertionSort(heights, speed);
+            break;
+        case 'selection':
+            selectionSort(heights, speed);
+            break;
+        case 'heap':
+            heapSort(heights, speed);
+            break;
+        case 'quick':
+            quickSort(heights, speed);
+            break;
+        default:
+            break;
+    }
 
-    if(dropdown == 'bubble') {
-        bubbleSort(heights, speed);
+}
+
+function merge(arr, start, mid, end)
+{
+    let start2 = mid + 1;
+
+    // * If the direct merge is already sorted
+    if (arr[mid] <= arr[start2]) 
+    {
+        return;
     }
-    if(dropdown == 'insertion') {
-        insertionSort(heights, speed);
-    }
-    if(dropdown == 'selection') {
-        selectionSort(heights, speed);
-    }
-    if(dropdown == 'heap') {
-        heapSort(heights, speed);
+
+    // * Two pointers to maintain start
+    // * of both arrays to merge
+    while (start <= mid && start2 <= end)
+    {
+        
+        // * If element 1 is in right place
+        if (arr[start] <= arr[start2])
+        {
+            start++;
+        }
+        else 
+        {
+            let value = arr[start2];
+            let index = start2;
+
+            // * Shift all the elements between element 1
+            // * element 2, right by 1.
+            while (index != start) 
+            {
+                arr[index] = arr[index-1];
+                index--;
+                
+            }
+            arr[start] = value;
+
+            // * Update all the pointers
+            start++;
+            mid++;
+            start2++;
+        }
     }
 }
 
+// * l is for left index and r is right index 
+// * of the sub-array of arr to be sorted 
+function mergeSort(arr, l, r)
+{
+    console.clear()
+    if (l < r) 
+    {
+
+        // * Same as (l + r) / 2, but avoids overflow
+        // * for large l and r
+        let m = l + Math.floor((r - l) / 2);
+
+        // * Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
+    }
+}
 function bubbleSort(arr, speed) {
     console.clear()
     let len = arr.length;
@@ -134,9 +212,9 @@ function selectionSort(arr, speed) {
             }
         }
         if (min != i) {
-             let tmp = arr[i]; 
-             arr[i] = arr[min];
-             arr[min] = tmp;      
+            let tmp = arr[i]; 
+            arr[i] = arr[min];
+            arr[min] = tmp;      
             }
             timer(arr)
         }, speed*a)
@@ -197,4 +275,7 @@ function heapSort(arr, speed) {
         }, speed*a)
         a++
     });
+function quickSort(arr, speed) {
+    console.clear()
+    }
 }

@@ -11,12 +11,14 @@
     <div class="topbar">
         <input class="number_input" id="size" type="text" placeholder="size" required>
         <input class="number_input" id="speed" type="text" placeholder="speed" required>
-        <select class="dropdown" id="dropdown">
-            <option value="bubble">Bubble</option>
+        <select class="dropdown" id="dropdown" onchange="generate()">
+            <option value="marge" >Marge</option>
+            <option value="bubble" >Bubble</option>
             <option value="insertion">Insertion</option>
             <option value="selection">Selection</option>
             <option value="heap">Heap</option>
-          </select>
+            <option value="quick">Quick</option>
+        </select>
         <div class="generate" onclick="generate()">Generate</div>
         <div class="generate" onclick="sort()">Sort</div>
     </div>
