@@ -1,14 +1,45 @@
-
 var arr = [];
+
+var table = document.getElementById('table');
+
+setInterval(() => {
+    const theme = document.getElementById('theme').value
+    const css_root = document.querySelector(':root')
+    switch (theme) {
+        case 'mc':
+            css_root.style.setProperty('--back', 'white')
+            css_root.style.setProperty('--fore', 'black')
+            break
+        case 'og':
+            css_root.style.setProperty('--back', '#1e1e2e')
+            css_root.style.setProperty('--fore', '#89b4fa')
+            break
+        case 'sz':
+            css_root.style.setProperty('--back', '#151515')
+            css_root.style.setProperty('--fore', '#B4A5A5')
+            break
+        case 'mt':
+            css_root.style.setProperty('--back', '#282c34')
+            css_root.style.setProperty('--fore', '#7EBDC2')
+            break
+        case 'tm':
+            css_root.style.setProperty('--back', '#7EBDC2')
+            css_root.style.setProperty('--fore', '#282c34')
+            break
+        case 'pw':
+            css_root.style.setProperty('--fore', '#f2e964')
+            css_root.style.setProperty('--back', '#d9598c')
+            break
+    }
+})
 
 function generate() {
     // * Clearing window for next generation
-    for (let i=1; i<1000; i++) {
+    for (let i=3; i<1000; i++) {
         window.clearInterval(i);
     }
     // * Getting amount of bars to create and where to create bars 
     var size = document.getElementById('size').value;
-    var table = document.getElementById('table');
 
     // * Clearing the array to make this function usable more than once 
     arr = [];
@@ -34,7 +65,7 @@ function generate() {
         // * Adding them to our array to sort and make them appear on the screen
         setTimeout(() => {
             [].slice.call(table.children).forEach(bar => {
-                bar_height = `${parseFloat((Math.random() * (100 - 1) + 1).toFixed(1))}%`;
+                bar_height = `${parseFloat((Math.random() * (100 - 10) + 10).toFixed(1))}%`;
                 bar.style.maxHeight = bar_height;
                 var value = [parseInt(bar.id), bar_height.replace('%', '')];
                 arr.push(value)
@@ -47,7 +78,7 @@ function timer(array) {
     for(i=0; i<array.length; i++) {
         const bar = document.getElementById(i);
         //bar.style.transition = '0s';
-        bar.style.transition = '.1s';
+        bar.style.transition = 'max-height .1s';
         bar.style.maxHeight = array[i].toString()+'%';
     }
 }
@@ -55,7 +86,7 @@ function timer(array) {
 // * Calculating which algorithm to use 
 function sort() {
     var heights = []
-
+    
     const dropdown = document.getElementById('dropdown').value;
     // * Creating array to sort with name heights
     arr.forEach(subarr => {
@@ -64,37 +95,37 @@ function sort() {
     
     //heights.sort(function(a, b){return a - b});
 
-    const speed = document.getElementById('speed').value
+    const delay = document.getElementById('delay').value
     switch (dropdown) {
         case 'marge':
             mergeSort(heights, 0,heights.length-1);
             timer(heights);
             break;
         case 'bubble':
-            bubbleSort(heights, speed);
+            bubbleSort(heights, delay);
             break;
         case 'insertion':
-            insertionSort(heights, speed);
+            insertionSort(heights, delay);
             break;
         case 'selection':
-            selectionSort(heights, speed);
+            selectionSort(heights, delay);
             break;
         case 'heap':
-            heapSort(heights, speed);
+            heapSort(heights, delay);
             break;
         case 'merge':
-            let cases = mergeSort(heights, speed);
+            let cases = mergeSort(heights, delay);
             a = 1
 
             cases.forEach(cas => {
                 setTimeout(() => {
                     timer(cas)
-                }, speed*a)
+                }, delay*a)
                 a++
             });
             break;
         case 'quick':
-            quickSort(heights, 0, heights.length-1, speed)
+            quickSort(heights, 0, heights.length-1, delay)
             break;
         case 'radix':
             radixSort(heights)
@@ -128,7 +159,7 @@ function mergeSort(array) {
     return arrays
 }
 
-function bubbleSort(arr, speed) {
+function bubbleSort(arr, delay) {
     console.clear()
     let len = arr.length;
     let checked = false;
@@ -146,11 +177,11 @@ function bubbleSort(arr, speed) {
                     timer(arr)
                 }
             }
-        }, speed);
+        }, delay);
     } while (checked);
 }
 
-function insertionSort(arr, speed) {
+function insertionSort(arr, delay) {
     console.clear()
     var cases = [];
     let len = arr.length;
@@ -172,19 +203,19 @@ function insertionSort(arr, speed) {
             cas = cas.split(',')
             cas.forEach(val => parseInt(val))
             timer(cas)
-        }, speed*a)
+        }, delay*a)
         a++
     });
 }
 
-function selectionSort(arr, speed) {
+function selectionSort(arr, delay) {
     let len = arr.length;
     a = 1
     for(let i = 0; i < len; i++) {
         setTimeout(() => {
             let min = i;
             for(let j = i+1; j < len; j++){
-            if(arr[j] < arr[min]) {
+                if(arr[j] < arr[min]) {
                 min=j; 
             }
         }
@@ -194,7 +225,7 @@ function selectionSort(arr, speed) {
             arr[min] = tmp;      
             }
             timer(arr)
-        }, speed*a)
+        }, delay*a)
         a++
     }
 }
@@ -227,7 +258,7 @@ function swap(input, index_A, index_B) {
     input[index_B] = temp;
 }
 
-function heapSort(arr, speed) {
+function heapSort(arr, delay) {
     console.clear();
     array_length = arr.length;
 
@@ -237,7 +268,7 @@ function heapSort(arr, speed) {
     for (var i = Math.floor(array_length / 2); i >= 0; i -= 1)      {
         heap_root(arr, i);
     }
-
+    
     for (i = arr.length - 1; i > 0; i--) {
         swap(arr, 0, i);
         array_length--;
@@ -249,7 +280,7 @@ function heapSort(arr, speed) {
             cas = cas.split(',')
             cas.forEach(val => parseInt(val))
             timer(cas)
-        }, speed*a)
+        }, delay*a)
         a++
     });
     
@@ -275,14 +306,14 @@ function partition(arr, start, end) {
     return swapIndex
 }
 
-function quickSort(arr, start, end, speed) {
+function quickSort(arr, start, end, delay) {
     // Base case
     if (start >= end) return
     setTimeout(() => {
         let pivotIndex = partition(arr, start, end)
         // Left
-        quickSort(arr, start, pivotIndex - 1, speed)
+        quickSort(arr, start, pivotIndex - 1, delay)
         // Right
-        quickSort(arr, pivotIndex + 1, end, speed)
-    }, speed)
+        quickSort(arr, pivotIndex + 1, end, delay)
+    }, delay)
 }

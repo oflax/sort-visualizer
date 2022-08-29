@@ -9,18 +9,26 @@
 </head>
 <body>
     <div class="topbar">
-        <input class="number_input" id="size" type="text" placeholder="size" required>
-        <input class="number_input" id="speed" type="text" placeholder="speed" required>
-        <select class="dropdown" id="dropdown" onchange="generate()">
-            <option value="bubble" >Bubble</option>
+        <input class="number_input" id="size" type="text" placeholder="size">
+        <input class="number_input" id="delay" type="text" placeholder="delay">
+        <select class="dropdown" id="dropdown">
+            <option value="bubble">Bubble</option>
             <option value="insertion">Insertion</option>
             <option value="selection">Selection</option>
             <option value="heap">Heap</option>
             <option value="merge">Merge</option>
             <option value="quick">Quick</option>
-        </select>
-        <div class="generate" onclick="generate()">Generate</div>
-        <div class="generate" onclick="sort()">Sort</div>
+          </select>
+          <div class="generate" onclick="generate()">Generate</div>
+          <div class="generate" onclick="sort()">Sort</div>
+          <select class="dropdown" id="theme">
+              <option value="og">OG</option>
+              <option value="mc">monocock</option>
+              <option value="sz">solarized</option>
+              <option value="mt">mint</option>
+              <option value="tm">🅼🅸🅽🆃</option>
+              <option value="pw">Pussy Wagon</option>
+            </select>
     </div>
 
     <div class="table" id="table"></div>

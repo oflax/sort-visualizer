@@ -1,35 +1,34 @@
 body {
     margin: 0;
-    --back: #1e1e2e;
-    --fore: #89b4fa;
-    --selected:#C7D59F;
     background: var(--back);
+    transition: .5s ease;
 }
-/* --back: #282c34;
---selected: #9E2B25;
---fore:#7EBDC2; */
 
-/* --back: #282c34;
---selected: #F6F930;
---fore:#DBDBDB; */
+:root {
+}
+
 .topbar {
-    height: 50px;
     margin-inline: auto;
     margin-top: 5px;
-    border-radius: 500px;
     width: calc(100% - 20px);
     background: var(--fore);
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     padding: 5px 0;
     gap: 10px;
+    border-radius: 10px;
+}
+
+.topbar * {
+    transition: .5s ease;
 }
 
 .generate {
     color: var(--fore);
     background: var(--back);
     width: 100px;
-    border-radius: 500px;
+    border-radius: 10px;
     padding: 14px;
     font-size: 18px;
     text-align: center;
@@ -39,7 +38,7 @@ body {
 .number_input {
     color: var(--fore);
     background: var(--back);
-    border-radius: 500px;
+    border-radius: 10px;
     border: none;
     font-size: 18px;
     width: 100px;
@@ -49,10 +48,10 @@ body {
 
 .dropdown {
     color: var(--fore);
-    border-radius: 500px;
+    border-radius: 10px;
     border: none;
     font-size: 18px;
-    padding: 0 50px;
+    padding: 0 40px;
     outline: none;
     text-align: center;
     background: var(--back);
@@ -70,6 +69,7 @@ body {
     display: flex;
     align-items: end;
     gap: 4px;
+    transition: .5s ease;
 }
 
 .bar {
@@ -77,6 +77,6 @@ body {
     width: 50%;
     max-height: 0;
     border-radius: 20px 20px 10px 10px;
-    background:  var(--fore);
-    transition: max-height .75s ease;
+    background: var(--fore);
+    transition: max-height .5s ease;
 }
