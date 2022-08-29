@@ -2,9 +2,16 @@ body {
     margin: 0;
     --back: #1e1e2e;
     --fore: #89b4fa;
+    --selected:#C7D59F;
     background: var(--back);
 }
+/* --back: #282c34;
+--selected: #9E2B25;
+--fore:#7EBDC2; */
 
+/* --back: #282c34;
+--selected: #F6F930;
+--fore:#DBDBDB; */
 .topbar {
     height: 50px;
     margin-inline: auto;
@@ -69,7 +76,7 @@ body {
     height: 100%;
     width: 50%;
     max-height: 0;
-    border-radius: 40px 40px 20px 20px;
-    background: var(--fore);
+    border-radius: 20px 20px 10px 10px;
+    background:  var(--fore);
     transition: max-height .75s ease;
 }
