@@ -31,10 +31,10 @@ function generate() {
             bar.id = i
             table.appendChild(bar);
         }
-        // * Adding them to our array to sort and making them appear on the screen
+        // * Adding them to our array to sort and make them appear on the screen
         setTimeout(() => {
             [].slice.call(table.children).forEach(bar => {
-                bar_height = `${(Math.floor(Math.random() * 90)+5).toString()}%`;
+                bar_height = `${parseFloat((Math.random() * (100 - 1) + 1).toFixed(1))}%`;
                 bar.style.maxHeight = bar_height;
                 var value = [parseInt(bar.id), bar_height.replace('%', '')];
                 arr.push(value)
@@ -46,6 +46,7 @@ function generate() {
 function timer(array) {
     for(i=0; i<array.length; i++) {
         const bar = document.getElementById(i);
+        //bar.style.transition = '0s';
         bar.style.transition = '.1s';
         bar.style.maxHeight = array[i].toString()+'%';
     }
@@ -81,12 +82,22 @@ function sort() {
         case 'heap':
             heapSort(heights, speed);
             break;
+        case 'merge':
+            let cases = mergeSort(heights, speed);
+            a = 1
+
+            cases.forEach(cas => {
+                setTimeout(() => {
+                    timer(cas)
+                }, speed*a)
+                a++
+            });
+            break;
         case 'quick':
-            quickSort(heights, 0,heights.length -1)
-            timer(heights);
+            quickSort(heights, 0, heights.length-1, speed)
             break;
         case 'radix':
-            timer(radixSort(heights));
+            radixSort(heights)
             break;
         default:
             break;
@@ -94,68 +105,29 @@ function sort() {
 
 }
 
-function merge(arr, start, mid, end)
-{
-    let start2 = mid + 1;
 
-    // * If the direct merge is already sorted
-    if (arr[mid] <= arr[start2]) 
-    {
-        return;
-    }
-
-    // * Two pointers to maintain start
-    // * of both arrays to merge
-    while (start <= mid && start2 <= end)
-    {
-        
-        // * If element 1 is in right place
-        if (arr[start] <= arr[start2])
-        {
-            start++;
+function mergeSort(array) {
+    var arrays = [array.slice()],
+    n = array.length,
+    array0 = array,
+    array1 = new Array(n);
+  
+    for (var m = 1; m < n; m <<= 1) {
+        for (var i = 0; i < n; i += (m << 1)) {
+            merge(i, Math.min(i + m, n), Math.min(i + (m << 1), n));
         }
-        else 
-        {
-            let value = arr[start2];
-            let index = start2;
-
-            // * Shift all the elements between element 1
-            // * element 2, right by 1.
-            while (index != start) 
-            {
-                arr[index] = arr[index-1];
-                index--;
-                
-            }
-            arr[start] = value;
-
-            // * Update all the pointers
-            start++;
-            mid++;
-            start2++;
+        arrays.push(array1.slice());
+        array = array0, array0 = array1, array1 = array;
+    }
+  
+    function merge(left, right, end) {
+        for (var i0 = left, i1 = right, j = left; j < end; ++j) {
+            array1[j] = array0[i0 < right && (i1 >= end || array0[i0] <=    array0[i1]) ? i0++ : i1++];
         }
     }
+    return arrays
 }
 
-// * l is for left index and r is right index 
-// * of the sub-array of arr to be sorted 
-function mergeSort(arr, l, r)
-{
-    console.clear()
-    if (l < r) 
-    {
-
-        // * Same as (l + r) / 2, but avoids overflow
-        // * for large l and r
-        let m = l + Math.floor((r - l) / 2);
-
-        // * Sort first and second halves
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-
-        merge(arr, l, m, r);
-    }
-}
 function bubbleSort(arr, speed) {
     console.clear()
     let len = arr.length;
@@ -280,77 +252,37 @@ function heapSort(arr, speed) {
         }, speed*a)
         a++
     });
-
+    
 }
 
-function partition(arr, low, high) {
-
-    // * pivot
-    let pivot = arr[high];
-    
-    // * Index of smaller element and
-    // * indicates the right position
-    // * of pivot found so far
-    let i = (low - 1);
-    
-    for (let j = low; j <= high - 1; j++) {
-    
-        // * If current element is smaller 
-        // * than the pivot
-        if (arr[j] < pivot) {
-    
-            // * Increment index of 
-            // * smaller element
-            i++;
-            swap(arr, i, j);
+function partition(arr, start, end) {
+    const pivotValue = arr[start]
+    let swapIndex = start
+    for (let i = start + 1; i <= end; i++) {
+        if (pivotValue > arr[i]) {
+            swapIndex++
+            if (i !== swapIndex) {
+                // SWAP
+                ;[arr[i], arr[swapIndex]] = [arr[swapIndex], arr[i]]
+            }
         }
     }
-    swap(arr, i + 1, high);
-    return (i + 1);
-    /* The main function that implements QuickSort
-            arr[] --> Array to be sorted,
-            low --> Starting index,
-            high --> Ending index
-     */
-}
-function quickSort(arr, low, high) {
-    if (low < high) {
-    
-        // * pi is partitioning index, arr[p]
-        // * is now at right place 
-        let pi = partition(arr, low, high);
-    
-        // * Separately sort elements before
-        // * partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+    if (swapIndex !== start) {
+        // Swap pivot into correct place
+        ;[arr[swapIndex], arr[start]] = [arr[start], arr[swapIndex]]
     }
+    timer(arr)
+    return swapIndex
 }
 
-function radixSort(arrOfNums) {
-    let maxDigitCount = mostDigits(arrOfNums)
-    for (let k = 0; k < maxDigitCount; k++) {
-        let digitBuckets = Array.from({ length: 10 }, () => []) // [[], [], [],...]
-    for (let i = 0; i < arrOfNums.length; i++) {
-        let digit = getDigit(arrOfNums[i], k)
-        digitBuckets[digit].push(arrOfNums[i])
-    }
-        // New order after each loop
-    arrOfNums = [].concat(...digitBuckets)
-    }
-    return arrOfNums
-}
-function mostDigits(nums) {
-    let maxDigits = 0
-    for (let i = 0; i < nums.length; i++) {
-        maxDigits = Math.max(maxDigits, digitCount(nums[i]))
-    }
-    return maxDigits
-}
-function getDigit(num, place) {
-    return Math.floor(Math.abs(num) / Math.pow(10, place)) % 10
-}
-function digitCount(num) {
-    if (num === 0) return 1
-    return Math.floor(Math.log10(Math.abs(num))) + 1
+function quickSort(arr, start, end, speed) {
+    // Base case
+    if (start >= end) return
+    setTimeout(() => {
+        let pivotIndex = partition(arr, start, end)
+        // Left
+        quickSort(arr, start, pivotIndex - 1, speed)
+        // Right
+        quickSort(arr, pivotIndex + 1, end, speed)
+    }, speed)
 }
