@@ -2,36 +2,41 @@ var arr = [];
 
 var table = document.getElementById('table');
 
-setInterval(() => {
+const css_root = document.querySelector(':root')
+css_root.style.setProperty('--back', 'linear-gradient(#1e1e2e, #1e1e3e)');
+css_root.style.setProperty('--fore', '#7babfa');
+
+
+function switchTheme() {
     const theme = document.getElementById('theme').value
     const css_root = document.querySelector(':root')
     switch (theme) {
         case 'mc':
-            css_root.style.setProperty('--back', 'white')
-            css_root.style.setProperty('--fore', 'black')
+            css_root.style.setProperty('--back', 'black')
+            css_root.style.setProperty('--fore', 'white')
             break
         case 'og':
             css_root.style.setProperty('--back', '#1e1e2e')
             css_root.style.setProperty('--fore', '#89b4fa')
             break
         case 'sz':
-            css_root.style.setProperty('--back', '#151515')
-            css_root.style.setProperty('--fore', '#B4A5A5')
+            css_root.style.setProperty('--back', 'linear-gradient(#151515, #303030)')
+            css_root.style.setProperty('--fore', '#bfbfbf')
             break
         case 'mt':
-            css_root.style.setProperty('--back', '#282c34')
-            css_root.style.setProperty('--fore', '#7EBDC2')
+            css_root.style.setProperty('--back', 'linear-gradient(#242c2c, #2a3333)')
+            css_root.style.setProperty('--fore', '#67bcc2')
             break
         case 'tm':
-            css_root.style.setProperty('--back', '#7EBDC2')
-            css_root.style.setProperty('--fore', '#282c34')
+            css_root.style.setProperty('--back', 'linear-gradient(#67bcc2, #53999d)')
+            css_root.style.setProperty('--fore', '#2a3333')
             break
         case 'pw':
-            css_root.style.setProperty('--fore', '#f2e964')
-            css_root.style.setProperty('--back', '#d9598c')
+            css_root.style.setProperty('--fore', 'linear-gradient(#d2ca56, #bcb54d)')
+            css_root.style.setProperty('--back', '#b45f81')
             break
     }
-})
+}
 
 function generate() {
     // * Clearing window for next generation
@@ -53,7 +58,6 @@ function generate() {
 
     if(table.innerHTML=='') ti = 0
 
-    setTimeout(()  => {
         table.innerHTML = ''
         // * Creating bars
         for (var i = 0; i < size; i++) {
@@ -65,13 +69,12 @@ function generate() {
         // * Adding them to our array to sort and make them appear on the screen
         setTimeout(() => {
             [].slice.call(table.children).forEach(bar => {
-                bar_height = `${parseFloat((Math.random() * (100 - 10) + 10).toFixed(1))}%`;
+                bar_height = `${parseFloat((Math.random() * 100))}%`;
                 bar.style.maxHeight = bar_height;
                 var value = [parseInt(bar.id), bar_height.replace('%', '')];
                 arr.push(value)
             });            
         }, 100);
-    }, ti)
 }
 
 function timer(array) {

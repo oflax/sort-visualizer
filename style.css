@@ -1,74 +1,69 @@
-body {
-    margin: 0;
-    background: var(--back);
-    transition: .5s ease;
+* {
+    font-family: 'Open Sans', sans-serif;
 }
 
-:root {
+body {
+    margin: 0;
+    padding: .5rem;
+    box-sizing: border-box;
+    background: var(--back);
+    transition: .5s ease;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100dvh;
+    gap: .5rem;
 }
 
 .topbar {
-    margin-inline: auto;
-    margin-top: 5px;
-    width: calc(100% - 20px);
     background: var(--fore);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 5px 0;
-    gap: 10px;
-    border-radius: 10px;
+    padding: .25rem;
+    gap: .25rem 1rem;
+    border-radius: 1.25rem;
 }
 
 .topbar * {
-    transition: .5s ease;
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: var(--fore);
+    background: var(--back);
+
+    text-align: center;
+    padding: .5rem 1rem;
+
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    backface-visibility: hidden;
+
+    transition: 200ms ease;
 }
 
 .generate {
-    color: var(--fore);
-    background: var(--back);
-    width: 100px;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 18px;
-    text-align: center;
     cursor: pointer;
 }
 
 .number_input {
-    color: var(--fore);
-    background: var(--back);
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-    width: 100px;
-    outline: none;
-    text-align: center;
 }
 
-.dropdown {
-    color: var(--fore);
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-    padding: 0 40px;
-    outline: none;
-    text-align: center;
-    background: var(--back);
+select {
+}
+
+.number_input:active, select:active, .generate:active {
+    transform: scale(.95);
 }
 
 .table {
-    width: calc(100% - 20px - 18px);
-    height: calc(100vh - 100px);
-    margin-top: 10px;
-    margin-inline: auto;
-    border-radius: 10px;
+    border-radius: 1.25rem;
     background: var(--back);
     border: 3px solid var(--fore);
-    padding: 5px;
+    padding: 1rem;
     display: flex;
     align-items: end;
-    gap: 4px;
+    gap: 1px;
     transition: .5s ease;
 }
 
@@ -76,7 +71,15 @@ body {
     height: 100%;
     width: 50%;
     max-height: 0;
-    border-radius: 20px 20px 10px 10px;
+    border-radius: 1rem 1rem 0 0;
     background: var(--fore);
-    transition: max-height .5s ease;
+    transition: max-height 250ms ease;
+}
+
+.bar:first-child {
+    border-bottom-left-radius: .5rem;
+}
+
+.bar:last-child {
+    border-bottom-right-radius: .5rem;
 }

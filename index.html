@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>sort-visualizer</title>
 </head>
 <body>
     <div class="topbar">
         <input class="number_input" id="size" type="text" placeholder="size">
         <input class="number_input" id="delay" type="text" placeholder="delay">
-        <select class="dropdown" id="dropdown">
+        <select id="dropdown">
             <option value="bubble">Bubble</option>
             <option value="insertion">Insertion</option>
             <option value="selection">Selection</option>
@@ -19,10 +22,10 @@
             <option value="merge">Merge</option>
             <option value="quick">Quick</option>
           </select>
-          <div class="generate" onclick="generate()">Generate</div>
+          <button class="generate" onclick="generate()">Generate</button>
           <div class="generate" onclick="sort()">Sort</div>
-          <select class="dropdown" id="theme">
-              <option value="og">OG</option>
+          <select class="dropdown" id="theme" onchange="switchTheme()">
+              <option value="og" selected>OG</option>
               <option value="mc">monochrome</option>
               <option value="sz">solarized</option>
               <option value="mt">mint</option>
